@@ -1,3 +1,3 @@
 # lab_spring4
-spring4.0기반 MVC패턴 실습
-<h1>스프링 수동 설정</h1>
+<h1>spring4.0기반 MVC패턴 실습-[수동설정]</h1>
+<img src="injection1.jpg">
