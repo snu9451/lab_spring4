@@ -5,7 +5,10 @@
 	<bean id="default-handler-mapping" 
 	class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
 	<bean name="/di/hello.sp4" class="kosmo80.mvc.sp4.HelloController"/>
-	<bean id="emp-controller" class="kosmo80.mvc.sp4.EmpController"/>
+	<bean id="emp-controller" class="kosmo80.mvc.sp4.EmpController">
+		<property name="methodNameResolver" ref="emp-resolver"/>
+		<property name="empLogic" ref="emp-logic"/>
+	</bean>
 	<bean id="url-mapping" 
 	class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="mappings">
@@ -32,3 +35,14 @@
 		<property name="suffix" value=".jsp"/>
 	</bean>
 </beans>
+
+
+
+
+
+
+
+
+
+
+
