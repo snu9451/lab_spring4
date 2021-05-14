@@ -4,6 +4,24 @@ package local.di;
 
 //@Scope("singletone")
 public class Sonata {
+	public String getCarColor() {
+		return carColor;
+	}
+	public void setCarColor(String carColor) {
+		this.carColor = carColor;
+	}
+	public int getWheelNum() {
+		return wheelNum;
+	}
+	public void setWheelNum(int wheelNum) {
+		this.wheelNum = wheelNum;
+	}
+	public int getSpeed() {
+		return speed;
+	}
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
 	private String carColor = null;
 	private int wheelNum = 0;
 	private int speed = 0;
