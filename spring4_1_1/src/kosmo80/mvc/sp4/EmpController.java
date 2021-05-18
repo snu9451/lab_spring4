@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 public class EmpController extends MultiActionController {
 	Logger logger = Logger.getLogger(EmpController.class);
 	private EmpLogic empLogic = null;
+	//setter 객체 주입코드
 	public void setEmpLogic(EmpLogic empLogic) {
 		this.empLogic = empLogic;
 	}
@@ -31,6 +32,7 @@ public class EmpController extends MultiActionController {
 		Map<String,Object> rmap = new HashMap<>();
 		rmap.put("mem_name", "이순신장군");
 		empList.add(rmap);
+		//NPE가 안 일어남.
 		empList = empLogic.getEmpList();
 		//ModelAndView는 scope속성이 request이다.
 		mav.addObject("empList", empList);
