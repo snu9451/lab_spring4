@@ -27,4 +27,12 @@ web.xml문서는 톰캣 서버 기동시 가장 먼저 스캔하는 문서임.
   	<servlet-name>deptBasic</servlet-name>
   	<url-pattern>/dept/deptList.nhn</url-pattern>
   </servlet-mapping>
+  <servlet>
+  	<servlet-name>pojo1_board</servlet-name>
+  	<servlet-class>pojo.board.step1.BoardController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>pojo1_board</servlet-name>
+  	<url-pattern>/board/crudBoard.po1</url-pattern>
+  </servlet-mapping>
 </web-app>

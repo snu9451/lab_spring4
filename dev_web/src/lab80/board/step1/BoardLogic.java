@@ -1,4 +1,4 @@
-package pojo.board.step1;
+package lab80.board.step1;
 
 import java.util.Map;
 
