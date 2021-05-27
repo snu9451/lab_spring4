@@ -9,15 +9,32 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 //@Configuration
 //@Controller
 public class BoardController extends HttpServlet implements Action{
+	Logger logger = Logger.getLogger(BoardController.class);
 	//@Autowired
 	//@Bean
 	private BoardLogic boardLogic = new BoardLogic();
 	private ActionForward forward = null;
 	@Override
 	public ActionForward execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		logger.info("execute 호출");
+		String uri = req.getRequestURI();//    /board/crudBoard.po1
+		logger.info("uri ===> "+uri);
+		String context = req.getContextPath();//    /board/crudBoard.po1
+		String command = uri.substring(context.length()+1);//앞에 /를 삭제한다.
+		int end = command.lastIndexOf('.');
+		command = command.substring(0, end);// board/crudBoard
+		String upmu[] = null;
+		upmu = command.split("/");
+		//upmu[0] = 폴더이름 board
+		//upmu[1] = 페이지(업무페이지) 이름
+		for(String str:upmu) {
+			logger.info("str ===> "+str);			
+		}
 		Map<String,Object> pmap = new HashMap<>();
 		String path = null;
 		boolean isRedirect = false;
