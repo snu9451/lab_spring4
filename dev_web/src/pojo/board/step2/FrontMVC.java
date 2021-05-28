@@ -30,10 +30,6 @@ public class FrontMVC extends HttpServlet {
 		String upmu[] = null;
 		upmu = command.split("/");
 		ActionForward forward = null;
-		String crud = req.getParameter("crud");
-		for(String imsi:upmu) {
-			System.out.println("imsi:"+imsi);
-		}
 		req.setAttribute("upmu", upmu);
 		if("member".equals(upmu[0])) {
 			logger.info("회원관리 구현 컨트롤 계층 연결");
@@ -41,8 +37,6 @@ public class FrontMVC extends HttpServlet {
 		}
 		else if("board".equals(upmu[0])) {
 			logger.info("게시판 구현 컨트롤 계층 연결");
-			//같은 컨트롤계층에서 메소드를 구분해야 하니깐......
-			req.setAttribute("crud", crud);
 			forward = boardController.execute(req,res);
 			
 		}

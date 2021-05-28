@@ -13,7 +13,6 @@ public class BoardController{
 		ActionForward forward = new ActionForward();
 		String viewName = null;
 		boolean isRedirect = false;
-		String crud = (String)req.getAttribute("crud");
 		String[] upmu = (String[])req.getAttribute("upmu");
 		logger.info("upmu:"+upmu);
 		if("boardInsert".equals(upmu[1])) {

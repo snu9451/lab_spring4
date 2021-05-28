@@ -1,7 +1,7 @@
 package pojo.board.step2;
 
 public class ActionForward {
-	private String  path 		= null;//페이지 이름 담기
+	private String  path 		= "";//페이지 이름 담기
 	/*
 	 * RequestDispatcher view = req.getRequestDispatcher("XXX.jsp");
 	 * view.forward(req,res);//url은 그대로 인데 페이지 내용은 바뀌어 있다.
