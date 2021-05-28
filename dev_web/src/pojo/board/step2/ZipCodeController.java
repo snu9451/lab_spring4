@@ -12,6 +12,7 @@ public class ZipCodeController {
 		logger.info("execute 호출");
 		ActionForward forward = new ActionForward();
 		zipCodeLogic.getZipCodeList();
+		//forward.setPath("XXX.jsp");
 		return forward;
 	}
 

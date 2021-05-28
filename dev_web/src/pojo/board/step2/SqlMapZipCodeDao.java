@@ -9,13 +9,10 @@ import com.util.MyBatisCommonFactory;
 public class SqlMapZipCodeDao {
 	Logger logger = Logger.getLogger(SqlMapZipCodeDao.class);
 	SqlSessionFactory sqlSessionFactory = null;
-	MyBatisCommonFactory mcf = new MyBatisCommonFactory();
-	public SqlMapZipCodeDao() {
-		logger.info("SqlMapZipCodeDao생성자 호출 ");
-		sqlSessionFactory = mcf.getSqlSessionFactory();
-	}
+	SqlSession sqlSession = null;
 	public void getZipCodeList() {
 		logger.info("getZipCodeList 호출 성공 ===> "+sqlSessionFactory);
+		sqlSessionFactory = MyBatisCommonFactory.getSqlSessionFactory();
 		String time = null;
 		try {
 			SqlSession sqlSession = sqlSessionFactory.openSession();
