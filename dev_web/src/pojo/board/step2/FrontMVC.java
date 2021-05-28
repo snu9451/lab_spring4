@@ -31,7 +31,12 @@ public class FrontMVC extends HttpServlet {
 		upmu = command.split("/");
 		ActionForward forward = null;
 		String crud = req.getParameter("crud");
+		for(String imsi:upmu) {
+			System.out.println("imsi:"+imsi);
+		}
+		req.setAttribute("upmu", upmu);
 		if("member".equals(upmu[0])) {
+			logger.info("회원관리 구현 컨트롤 계층 연결");
 			forward = memberController.execute(req,res);
 		}
 		else if("board".equals(upmu[0])) {
@@ -42,6 +47,7 @@ public class FrontMVC extends HttpServlet {
 			
 		}
 		else if("zipcode".equals(upmu[0])) {
+			logger.info("우편번호 조회 컨트롤 계층 연결");
 			forward = zipCodeController.execute(req,res);
 			
 		}
