@@ -1,12 +1,18 @@
 package web.mvc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
+
+import com.util.HashMapBinder;
 
 public class Board41Controller extends MultiActionController {
 	Logger logger = Logger.getLogger(Board41Controller.class);
@@ -32,9 +38,18 @@ public class Board41Controller extends MultiActionController {
 	throws Exception
 	{
 		logger.info("getBoardList 호출 성공");
+		HashMapBinder hmb = new HashMapBinder(req);
+		Map<String,Object> target = new HashMap<>();
+		hmb.bind(target);
+		boardLogic.getBoardList(target);//where bm_no=? and bm_title LIKE '%'||?||'%'
 		ModelAndView mav = new ModelAndView();
-		RequestDispatcher view = req.getRequestDispatcher("getBoardList.jsp");
-		view.forward(req, res);
+		String name="이순신";
+		mav.setViewName("a.jsp");
+		mav.addObject("name", name);
+		HttpSession session = req.getSession();
+		session.setAttribute("name", name);
+		//RequestDispatcher view = req.getRequestDispatcher("getBoardList.jsp");
+		//view.forward(req, res);
 		return mav;
 	}
 	//json으로 내보내준다. - @RestController:String, @Controller:void, ModelAndView, String
