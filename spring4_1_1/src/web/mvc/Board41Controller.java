@@ -58,7 +58,7 @@ public class Board41Controller extends MultiActionController {
 	//json으로 내보내준다. - @RestController:String, @Controller:void, ModelAndView, String
 	//@RestController
 	public void jsonGetBoardList(HttpServletRequest req, HttpServletResponse res)
-	throws Exception
+	throws Exception 
 	{
 		logger.info("jsonGetBoardList 호출 성공");
 		List<Map<String,Object>> boardList = null;

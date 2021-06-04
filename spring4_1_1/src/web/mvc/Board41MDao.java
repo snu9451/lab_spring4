@@ -16,15 +16,17 @@ public class Board41MDao {
 	}
 	public List<Map<String, Object>> getBoardList(Map<String, Object> pmap) {
 		List<Map<String, Object>> boardList = null;
-		List<BoardMVO> boardList2 = null;
-//		boardList = sqlSessionTemplate.selectList("getBoardList",pmap);
+		//List<BoardMVO> boardList2 = null;
+		boardList = sqlSessionTemplate.selectList("getBoardList",pmap);
+		/*
 		boardList2 = sqlSessionTemplate.selectList("getBoardMap",pmap);
 		for(BoardMVO bmvo:boardList2) {
 			logger.info("bmvo : "+bmvo);
 			logger.info("bmvo : "+bmvo.getBm_title());
-//			logger.info("bmvo : "+bmvo.getBsVO().getBs_file());
+			logger.info("bmvo : "+bmvo.getBsVO().getBs_seq());
 			logger.info("bmvo : "+bmvo.getBs_file());
 		}
+		*/
 		return boardList;
 	}
 	
