@@ -12,6 +12,10 @@ public class BoardMVO {
 	private int    bm_pos    =0;//  
 	private int    bm_step   =0;//  
 	private String bm_pw     ="";//  
+	private BoardSVO bsVO = null;
+	private int    bs_seq =0;//  
+	private String bs_file="";//  
+	private double bs_size=0.0;//  	
 	public int getBm_no() {
 		return bm_no;
 	}
@@ -77,5 +81,29 @@ public class BoardMVO {
 	}
 	public void setBm_pw(String bm_pw) {
 		this.bm_pw = bm_pw;
+	}
+	public BoardSVO getBsVO() {
+		return bsVO;
+	}
+	public void setBsVO(BoardSVO bsVO) {
+		this.bsVO = bsVO;
+	}
+	public int getBs_seq() {
+		return bs_seq;
+	}
+	public void setBs_seq(int bs_seq) {
+		this.bs_seq = bs_seq;
+	}
+	public String getBs_file() {
+		return bs_file;
+	}
+	public void setBs_file(String bs_file) {
+		this.bs_file = bs_file;
+	}
+	public double getBs_size() {
+		return bs_size;
+	}
+	public void setBs_size(double bs_size) {
+		this.bs_size = bs_size;
 	}
 }
