@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <Form id="Form_Left" width="220" height="718" titletext="Form_Left" cssclass="sta_MF_bg">
+    <Layouts>
+      <Layout width="220" height="711" screenid="Desktop_screen">
+        <Grid id="gr_menu" oncelldblclick="gr_menu_oncelldblclick" taborder="0" left="5" top="0" width="210" height="658" binddataset="gds_menu" treeinitstatus="expand,all" treeusecheckbox="false" treeuseline="false" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="208"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="KOSMO ERP"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:MENU_NAME" displaytype="treeitemcontrol" edittype="tree" treelevel="bind:MENU_LEVEL"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[this.gr_menu_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	//alert("메뉴 아이템 클릭 성공");
+	var objDs = obj.getBindDataset();
+	
+	var sID   = objDs.getColumn(e.row, "MENU_ID");		//메뉴ID Key
+	var sName = objDs.getColumn(e.row, "MENU_NAME");	//메뉴 명
+	var sURL  = objDs.getColumn(e.row, "FORM_URL");	    //화면 URL	
+	//alert(sID+", "+sName+", "+sURL);
+	this.fn_openForm(sID, sName, sURL);
+};
+
+this.fn_openForm = function(sID, sName, sURL)
+{
+	alert("fn_openForm 호출 성공 - "+sID+", "+sName+", "+sURL);
+	if(sURL.length <= 0) return;
+
+	var objApp = nexacro.getApplication();
+	//alert("objApp : "+objApp+", av_WorkFrame : "+objApp.av_WorkFrame);
+	
+	var nCnt = objApp.gds_openForm.getRowCount();
+	alert("nCnt : "+nCnt);
+	if(nCnt >= 10){
+		this.alert("The Form can be opened up to 10.");
+		return;
+	}
+	
+	//업무영역 Size, application.av_WorkFrame --> WorkFrame Path
+	var nWidth  = objApp.av_WorkFrame.getOffsetWidth();
+	var nHeight = objApp.av_WorkFrame.getOffsetHeight();
+
+	//화면 ID 생성("FORM_" + 메뉴ID + random)
+	var sFormID = "FORM_" + sID + "_" + parseInt(Math.random() * 1000);
+    alert(nWidth+", "+nHeight+", "+sFormID);
+	var objChildFrame = new ChildFrame();	
+	objChildFrame.init(sFormID, 0, 0, nWidth, nHeight);
+
+	objApp.av_WorkFrame.addChild(sFormID, objChildFrame);
+	
+	objChildFrame.set_resizable(true);
+ 	objChildFrame.set_openstatus("maximize");
+	objChildFrame.set_border("1px solid #5d6468");
+
+	var oParam = { FORM_ID : sFormID, 
+                   MENU_ID : sID, 
+                   MENU_NM : sName, 
+                   FORM_URL : sURL,
+                   FORM_TYPE : "ADD" };	
+	
+	//Work Frame에 필요한 정보 Set
+	objChildFrame.param = oParam;
+ 	objChildFrame.set_formurl("FrameBase::Form_Work.xfdl");	
+	objChildFrame.show();
+
+	//열린 화면 Tab 생성
+	nexacro.getApplication().mainframe.VFrameSet00.HFrameSet00.VFrameSet1.MDIFrame.form.fn_addTab(oParam);
+
+}]]></Script>
+  </Form>
+</FDL>

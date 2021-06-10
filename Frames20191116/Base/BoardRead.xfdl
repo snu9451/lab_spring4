@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <Form id="BoardRead" width="1280" height="720" titletext="글상세보기" onload="form_onload">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Static id="Static00" taborder="0" text="글상세보기" left="20" top="20" width="120" height="30" font="20px/normal &quot;Verdana&quot;"/>
+        <Static id="lb_title" taborder="1" text="제     목" left="20" top="74" width="50" height="26"/>
+        <Edit id="ed_title" taborder="2" left="80" top="74" width="500" height="26"/>
+        <Static id="lb_writer" taborder="3" text="작 성 자" left="20" top="106" width="50" height="26"/>
+        <Edit id="ed_title00" taborder="4" left="80" top="106" width="150" height="26"/>
+        <Static id="lb_content" taborder="5" text="내     용" left="20" top="166" width="50" height="26"/>
+        <TextArea id="ta_content" taborder="6" left="80" top="171" width="670" height="186"/>
+        <Static id="lb_pw" taborder="7" text="비     번" left="20" top="364" width="50" height="26"/>
+        <Edit id="ed_title01" taborder="8" left="80" top="364" width="150" height="26"/>
+        <Static id="lb_writer00" taborder="9" text="작 성 자" left="20" top="138" width="50" height="26"/>
+        <Edit id="ed_title02" taborder="10" left="80" top="138" width="150" height="26"/>
+        <Button id="btn_reple" taborder="11" text="댓글쓰기" left="443" top="412" width="73" height="30"/>
+        <Button id="btn_upd" taborder="12" text="글수정" left="521" top="412" width="73" height="30"/>
+        <Button id="btn_del" taborder="13" text="글삭제" left="599" top="412" width="73" height="30"/>
+        <Button id="btn_sel" taborder="14" text="목록보기" left="677" top="412" width="73" height="30"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo) { 
+	alert("form_onload 호출 성공");
+	var strParam1 = this.parent.param1; 
+	alert("strParam1 : "+strParam1);
+};	]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <Form id="BoardMgr" onload="BoardMgr_onload" width="1280" height="720" titletext="New Form">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Static id="Static00" taborder="0" text="MVC기반 계층형게시판" left="20" top="16" width="220" height="24" font="20px/normal &quot;Verdana&quot;,&quot;돋움체&quot;"/>
+        <Grid id="gr_board" oncelldblclick="gr_board_oncelldblclick" taborder="1" left="20" top="160" width="1000" height="280" binddataset="ds_board">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="380"/>
+                <Column size="100"/>
+                <Column size="150"/>
+                <Column size="200"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="24"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="글번호"/>
+                <Cell col="1" text="제목"/>
+                <Cell col="2" text="작성자"/>
+                <Cell col="3" text="이메일"/>
+                <Cell col="4" text="첨부파일"/>
+                <Cell col="5" text="조회수"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:BM_NO" textAlign="center"/>
+                <Cell col="1" text="bind:BM_TITLE"/>
+                <Cell col="2" text="bind:BM_WRITER" textAlign="center"/>
+                <Cell col="3" text="bind:BM_EMAIL" textAlign="center"/>
+                <Cell col="4" text="bind:BS_FILE"/>
+                <Cell col="5" text="bind:BM_HIT" textAlign="center"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_sel" taborder="2" text="조회" left="20" top="129" width="60" height="24"/>
+        <Button id="btn_ins" taborder="3" text="글쓰기" left="83" top="129" width="60" height="24" onclick="btn_ins_onclick"/>
+        <Combo id="Combo00" taborder="4" text="Combo00" left="20" top="58" width="100" height="20"/>
+        <Static id="lb_con00" taborder="5" text="작성일" left="293" top="53" width="67" height="29"/>
+        <Calendar id="Calendar00" taborder="6" left="349" top="56" width="150" height="20"/>
+        <Edit id="Edit00" taborder="7" left="124" top="58" width="140" height="20"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_board">
+        <ColumnInfo>
+          <Column id="BM_NO" type="INT" size="256"/>
+          <Column id="BM_TITLE" type="STRING" size="256"/>
+          <Column id="BM_WRITER" type="STRING" size="256"/>
+          <Column id="BM_EMAIL" type="STRING" size="256"/>
+          <Column id="BM_CONTENT" type="STRING" size="256"/>
+          <Column id="BM_HIT" type="INT" size="256"/>
+          <Column id="BM_DATE" type="STRING" size="256"/>
+          <Column id="BM_GROUP" type="INT" size="256"/>
+          <Column id="BM_POS" type="INT" size="256"/>
+          <Column id="BM_STEP" type="INT" size="256"/>
+          <Column id="BM_PW" type="STRING" size="256"/>
+          <Column id="BS_FILE" type="STRING" size="256"/>
+          <Column id="BS_SIZE" type="FLOAT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[this.BoardMgr_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	//alert("BoardMgr_onload");
+	this.transaction("BoardSearch" ,"SvcURL2::boardXML.nxa?timestamp="+new Date().getTime() ,"in_board=ds_board:A" ,"ds_board=out_board" ,"bm_no=0 bm_title=제목" ,"fn_callback");
+}
+// 비동기 통신 결과를 받을 콜백 함수 지정 
+this.fn_callback = function(svcID, errCD, errMSG) { 
+	//alert("fn_callback호출 성공"+svcID+","+errCD+","+errMSG);
+	if(errCD < 0){ 
+		this.alert("Error: " + errMSG); 
+		return; 
+	}
+	if(svcID == "BoardSearch"){
+		this.alert("글목록 조회 Success");
+	}	
+}
+this.gr_board_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+    var value = this.ds_board.getColumn(e.row , 0);
+    //alert("value : "+value);
+	this.readModal(value);
+};
+this.btn_ins_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	alert("모달 버튼 클릭");
+	var objChildFrame = new ChildFrame();
+	objChildFrame.init("popup_boardInsert"
+	                  , 0
+					  , 0
+					  , 400
+					  , 350
+					  , null
+					  , null
+					  , "Base::BoardInsert.xfdl");
+
+	objChildFrame.set_dragmovetype("all");
+	objChildFrame.set_openalign("center middle");
+	objChildFrame.set_overlaycolor("RGBA(196,196,196,0.5)")
+	
+	var objParam = {param1:'글쓰기'};
+	objChildFrame.showModal(this.getOwnerFrame()
+	                      , objParam
+						  , this
+						  , "fn_popupCallback");
+};
+this.fn_popupCallback = function(strPopupID, strReturn)
+{
+	//alert("fn_popupCallback ==> "+strPopupID+", "+strReturn);
+	if(strReturn == undefined){ 
+		return; 
+	}
+	if(strPopupID == "popup_boardInsert"){ 
+		this.alert("Return Value: " + strReturn); 
+		
+	}		
+	else if(strPopupID == "popup_boardread"){ 
+		this.alert("Return Value: " + strReturn); 
+		
+	}		
+};
+this.fn_parent = function(pObj, pObj2) {
+	//alert("부모창 함수 호출하기 : "+pObj);
+	//alert("부모창 함수 : "+pObj);
+	//this.go("http://127.0.0.1:7001/nexa11/quickview.html?screenid=Desktop_screen&formname=Base::BoardMgr.xfdl&timestamp="+new Date().getTime());
+	this.BoardMgr_onload();
+	return;
+};
+this.readModal = function(prow)
+{
+	alert("상세보기 모달 호출 : "+prow);
+	var objChildFrame = new ChildFrame();
+	objChildFrame.init("popup_boardread"
+	                  , 0
+					  , 0
+					  , 400
+					  , 350
+					  , null
+					  , null
+					  , "Base::BoardRead.xfdl");
+
+	objChildFrame.set_dragmovetype("all");
+	objChildFrame.set_openalign("center middle");
+	objChildFrame.set_overlaycolor("RGBA(196,196,196,0.5)")
+	
+	var objParam = {param1:prow};
+	objChildFrame.showModal(this.getOwnerFrame()
+	                      , objParam
+						  , this
+						  , "fn_popupCallback");
+};]]></Script>
+  </Form>
+</FDL>

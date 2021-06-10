@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <Form id="Form_Top" width="1280" height="50" titletext="Form_Top">
+    <Layouts>
+      <!--<Layout width="1280" height="50" screenid="Desktop_screen"/>-->
+      <Layout height="50" mobileorientation="landscape" width="1280">
+        <Static id="Static00" taborder="3" left="215" top="0" height="50" cssclass="sta_TF_bg" right="0"/>
+        <Button id="Button00" taborder="1" left="215" top="10" width="30" height="30" cssclass="btn_TF_allmnu"/>
+        <Menu id="Menu00" taborder="2" left="250" top="10" height="30" cssclass="mnu_TF_menu" innerdataset="@gds_menu" captioncolumn="MENU_NAME" idcolumn="MENU_ID" levelcolumn="MENU_LEVEL" popupitemheight="24" right="10" onmenuclick="Menu00_onmenuclick" userdatacolumn="MENU_ID" iconcolumn="MENU_ICON" hotkeycolumn="MENU_KEY" enablecolumn="MENU_ENABLE"/>
+        <ImageViewer id="ImageViewer00" taborder="3" left="27" top="10" width="160" height="30" image="URL(&quot;theme://images/sta_TF_logo.png&quot;)"/>
+      </Layout>
+    </Layouts>
+  </Form>
+</FDL>

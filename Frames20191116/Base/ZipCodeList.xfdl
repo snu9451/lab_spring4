@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <Form id="ZipCodeList" width="580" height="480" titletext="New Form">
+    <Layouts>
+      <Layout height="480" mobileorientation="landscape" width="580">
+        <Static id="Static00" taborder="0" text="우편번호검색기" left="10" top="15" width="190" height="31" font="24px/normal &quot;Verdana&quot;" border="1"/>
+        <Edit id="ed_dong" taborder="1" left="12" top="66" width="238" height="24" onchanged="ed_dong_onchanged"/>
+        <Button id="btn_search" taborder="2" text="찾기" left="261" top="66" width="59" height="24" onclick="btn_search_onclick"/>
+        <Grid id="gr_zipcode" taborder="3" left="12" top="100" width="558" height="370" binddataset="ds_zipcode" oncelldblclick="gr_zipcode_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="380"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="24"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="우편번호"/>
+                <Cell col="1" text="주소"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:ZIPCODE" textAlign="center"/>
+                <Cell col="1" text="bind:ADDRESS"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_zipcode">
+        <ColumnInfo>
+          <Column id="ZIPCODE" type="STRING" size="256"/>
+          <Column id="ADDRESS" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[this.btn_search_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+     var dong = this.ed_dong.value;
+	 //alert("dong:"+dong);
+	 this.transaction("zipSearch" ,"SvcURL::zipCodeList.nxa?dong="+dong+"&timestamp="+new Date().getTime() ,"in_zipcode=ds_zipcode:A" ,"ds_zipcode=out_zipcode" ,"" ,"fn_callback");
+};
+// 비동기 통신 결과를 받을 콜백 함수 지정 
+this.fn_callback = function(svcID, errCD, errMSG) { 
+	//alert("fn_callback호출 성공"+svcID+","+errCD+","+errMSG);
+	if(errCD < 0){ 
+		this.alert("Error: " + errMSG); 
+		return; 
+	}
+	if(svcID == "zipSearch"){
+		this.alert("Select Success");
+	}	
+}
+
+this.ed_dong_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
+{
+	//alert("동이름");
+     var dong = this.ed_dong.value;
+	 this.transaction("zipSearch" ,"SvcURL::zipCodeList.nxa?dong="+dong+"&timestamp="+new Date().getTime() ,"in_zipcode=ds_zipcode:A" ,"ds_zipcode=out_zipcode" ,"" ,"fn_callback");	
+};
+
+this.gr_zipcode_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	alert("우편번호 더블 클릭 성공");
+	var objDs = obj.getBindDataset();
+	
+	var zipcode   = objDs.getColumn(e.row, "ZIPCODE");		//우편번호
+	var address = objDs.getColumn(e.row, "ADDRESS");	//메뉴 명
+	alert(zipcode+", "+address);
+	this.opener.fn_parent(zipcode, address);
+	this.close('');
+	//this.fn_openForm(sID, sName, sURL);
+};]]></Script>
+  </Form>
+</FDL>

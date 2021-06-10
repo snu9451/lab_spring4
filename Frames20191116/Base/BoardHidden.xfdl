@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form id="copyProject" left="0" top="0" width="1024" height="768" titletext="New Form" onload="form_onload">
+    <Layouts>
+      <Layout>
+        <Combo id="selectCombo" taborder="0" value="0" text="-전체-" innerdataset="dsCmbBbsType" codecolumn="cd" datacolumn="cdNm" index="0" onitemchanged="selectCombo_onitemchanged" left="35.74%" top="39" right="55.18%" height="33" style="align:center;font:9 Dotum;"/>
+        <Static id="staticModify" taborder="1" text="수정 불가능" left="26.07%" top="36" right="64.45%" height="37"/>
+        <Button id="btnModify" taborder="2" text="수정" onclick="btnModify_onclick" left="46.09%" top="39" right="48.44%" height="34" style="align:center;font:9 Dotum;"/>
+        <Button id="btnAdd" taborder="3" text="+" onclick="btnAdd_onclick" left="53.13%" top="46" right="45.12%" height="19" style="align:center;font:9 Dotum;"/>
+        <Button id="btnDelete" taborder="4" text="-" onclick="btnDelete_onclick" left="55.57%" top="46" right="42.68%" height="19" style="align:center;font:9 Dotum;"/>
+        <Grid id="grBoardList" taborder="7" binddataset="dsBoardList" useinputpanel="false" onheadclick="gridChkCnt" left="2.73%" top="81" right="40.63%" height="343">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell displaytype="checkbox" edittype="checkbox" text="check"/>
+                <Cell col="1" text="순번"/>
+                <Cell col="2" text="제목"/>
+                <Cell col="3" text="내용"/>
+                <Cell col="4" text="유형"/>
+                <Cell col="5" text="작성인"/>
+                <Cell col="6" text="작성일"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="checkbox" edittype="checkbox" text="bind:check"/>
+                <Cell col="1" text="bind:boardNo"/>
+                <Cell col="2" text="bind:boardTitle"/>
+                <Cell col="3" text="bind:boardContents"/>
+                <Cell col="4" displaytype="combo" text="bind:boardType" combodataset="dsCmbBbsType" combocodecol="cd" combodatacol="cdNm"/>
+                <Cell col="5" displaytype="combo" text="bind:boardWriter" combodataset="dsCmbWriter" combocodecol="cd" combodatacol="cdNm"/>
+                <Cell col="6" text="bind:writtenDate"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btnHidden" taborder="8" text="숨김" onclick="btnHidden_onclick" left="92.38%" top="43" right="2.15%" height="30" style="align:center;font:9 Dotum;"/>
+        <Combo id="hiddenCombo" taborder="9" text="Hidden_Type" left="78.71%" top="42" right="8.59%" height="31" innerdataset="@dsHidden" codecolumn="hiddenCd" datacolumn="hiddenCdNm"/>
+        <Grid id="Grid00" taborder="10" useinputpanel="false" left="60.84%" top="85" right="1.76%" height="334" binddataset="dsHidden">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Col size="80"/>
+                <Col size="80"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="24"/>
+                <Row band="body" size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell col="0" disptype="normal" text="hiddenCd"/>
+                <Cell col="1" disptype="normal" text="hiddenCdNm"/>
+              </Band>
+              <Band id="body">
+                <Cell col="0" disptype="normal" text="bind:hiddenCd"/>
+                <Cell col="1" disptype="normal" text="bind:hiddenCdNm"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsBoardList">
+        <ColumnInfo>
+          <Column id="check" type="STRING" size="256"/>
+          <Column id="boardNo" type="BIGDECIMAL" size="256"/>
+          <Column id="boardTitle" type="STRING" size="256"/>
+          <Column id="boardContents" type="STRING" size="1000"/>
+          <Column id="boardType" type="INT" size="256"/>
+          <Column id="boardWriter" type="STRING" size="256"/>
+          <Column id="writtenDate" type="DATE" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="boardNo">1</Col>
+            <Col id="boardTitle">제목1</Col>
+            <Col id="boardContents">내용1</Col>
+            <Col id="boardType">4</Col>
+            <Col id="boardWriter">1</Col>
+            <Col id="writtenDate">20190520</Col>
+            <Col id="check"/>
+          </Row>
+          <Row>
+            <Col id="boardNo">2</Col>
+            <Col id="boardTitle">제목2</Col>
+            <Col id="boardContents">내용2</Col>
+            <Col id="boardType">2</Col>
+            <Col id="boardWriter">3</Col>
+            <Col id="writtenDate">20190520</Col>
+            <Col id="check"/>
+          </Row>
+          <Row>
+            <Col id="boardNo">3</Col>
+            <Col id="boardTitle">제목3</Col>
+            <Col id="boardContents">내용3</Col>
+            <Col id="boardType">1</Col>
+            <Col id="boardWriter">2</Col>
+            <Col id="writtenDate">20190520</Col>
+            <Col id="check"/>
+          </Row>
+          <Row>
+            <Col id="boardNo">4</Col>
+            <Col id="boardTitle">제목4</Col>
+            <Col id="boardContents">내용4</Col>
+            <Col id="boardType">3</Col>
+            <Col id="boardWriter">4</Col>
+            <Col id="writtenDate">20190520</Col>
+            <Col id="check"/>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCmbWriter">
+        <ColumnInfo>
+          <Column id="cd" type="STRING" size="256"/>
+          <Column id="cdNm" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="cd">1</Col>
+            <Col id="cdNm">김하늘</Col>
+          </Row>
+          <Row>
+            <Col id="cd">2</Col>
+            <Col id="cdNm">백시원</Col>
+          </Row>
+          <Row>
+            <Col id="cd">3</Col>
+            <Col id="cdNm">위구로</Col>
+          </Row>
+          <Row>
+            <Col id="cd">4</Col>
+            <Col id="cdNm">조강남</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCmbBbsType">
+        <ColumnInfo>
+          <Column id="cd" type="STRING" size="256"/>
+          <Column id="cdNm" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="cd">0</Col>
+            <Col id="cdNm">-전체-</Col>
+          </Row>
+          <Row>
+            <Col id="cd">1</Col>
+            <Col id="cdNm">공지</Col>
+          </Row>
+          <Row>
+            <Col id="cd">2</Col>
+            <Col id="cdNm">자유</Col>
+          </Row>
+          <Row>
+            <Col id="cd">3</Col>
+            <Col id="cdNm">질문</Col>
+          </Row>
+          <Row>
+            <Col id="cd">4</Col>
+            <Col id="cdNm">후기</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCopy" oncolumnchanged="ds_copy" preload="true"/>
+      <Dataset id="dsHidden">
+        <ColumnInfo>
+          <Column id="hiddenCd" type="STRING" size="256"/>
+          <Column id="hiddenCdNm" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="copyProject" propid="" datasetid="dsHidden" columnid=""/>
+      <BindItem id="item1" compid="copyProject" propid="" datasetid="dsHidden" columnid=""/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[
+/*********************************************************************************************
+ * Form Function
+ *********************************************************************************************/
+
+this.form_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.hieenCombo_setValue();// hiddenCombo에 value값 set
+	
+}
+
+
+
+
+/*********************************************************************************************
+ * User Function
+ *********************************************************************************************/
+ 
+ 
+/*  =========================================================================================== 
+ *  요구사항 1) + 버튼으로 Row 생성_작성일은 현재날짜
+ *  ===========================================================================================
+ */
+
+// + 버튼 클릭시 
+this.btnAdd_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+   var objDate = new Date();                                            // 날짜 객체 
+   var year = objDate.getFullYear().toString().padLeft(4,"0");          // 현재 년 
+   var month = ( objDate.getMonth()+1 ).toString().padLeft(2,"0");      // 현재 달 
+   var day = objDate.getDate().toString().padLeft(2,"0");               // 현재 일 
+   var today = year+month+day;                                          // 현재 날짜 
+ 
+   var nRow = this.dsBoardList.addRow();                                // 행 추가
+
+   
+   // 행 추가 될 때 작성일 == 현재날짜
+   this.dsBoardList.setColumn(nRow,"writtenDate",today);
+}
+
+
+
+
+/*  =========================================================================================== 
+ *  요구사항 2) - 버튼으로 체크 된 Row 삭제
+ *  ===========================================================================================
+ */
+
+this.checkAll = 0; // 체크박스 전체가 눌린 여부 
+
+// Grid에 체크박스 전체선택 및 해제 설정하기
+this.gridChkCnt = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+    if(e.cell == 0) // Grid Head 첫번재에 해당하는 부분 즉, checkbox를 말함
+    {  
+       
+        var strColId = obj.getCellProperty("body", e.cell, "text").replace(/bind:/i, "");
+        this.checkAll = (this.checkAll ? 0 : 1);
+        
+        for(var i=0; i<this.dsBoardList.getRowCount(); i++) {
+			this.dsBoardList.setColumn(i, strColId, this.checkAll);     
+        }
+        obj.setCellProperty("Head", 0, "text", this.checkAll);
+    }
+
+}
+
+// - 버튼 눌렀을 시 
+this.btnDelete_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+   var rowCount = this.dsBoardList.getRowCount();
+
+   // 체크박스를 체크 한 부분만 삭제하기
+   for(i=rowCount-1; 0<=i; i--){
+    var chk = this.dsBoardList.getColumn(i,"check");
+    if( chk==1 ) {
+      this.dsBoardList.deleteRow(i);    
+    }
+    
+  
+  }
+
+}
+
+
+/*  =========================================================================================== 
+ *  요구사항 3) - 콤보 박스 검색 결과 조회
+ *  ===========================================================================================
+ */
+ 
+
+// 콤보박스에서 변경된 값이 적용된 후 발생하는 이벤트
+this.selectCombo_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+    // ComboBox Value값
+	var comboValue = this.selectCombo.value;
+    
+    if( comboValue > 0 ) {
+        // dsBoardList 보드 유형값과 dsCmbBbsType의 값과 일치하는 조건으로 filter
+		this.dsBoardList.filter("boardType=='"+comboValue+"'"); 
+        return;
+    } else {
+        this.dsBoardList.filter("");
+    }
+
+}
+
+
+/*  =========================================================================================== 
+ *  요구사항 4) - 수정 권한 주기
+ *  ===========================================================================================
+ */
+ 
+var flag = 0; // 수정 가능 여부를 뜻하는 객체
+
+// 수정하기 버트 눌렀을 시 
+this.btnModify_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	
+	if(flag == 0 ) {
+		flag =1; 
+		this.grBoardList.setCellProperty("body", this.grBoardList.getBindCellIndex("body", "boardType") , "edittype", "combo");
+		this.grBoardList.setCellProperty("body", this.grBoardList.getBindCellIndex("body", "boardWriter"), "edittype", "combo");
+	    this.staticModify.set_text("수정 가능");	
+	}else {
+		flag =0;
+	    this.grBoardList.setCellProperty("body", this.grBoardList.getBindCellIndex("body", "boardType"), "edittype", "none");
+		this.grBoardList.setCellProperty("body", this.grBoardList.getBindCellIndex("body", "boardWriter"), "edittype", "none");
+		this.staticModify.set_text("수정 불가능");	
+	}	
+	
+}
+
+
+
+/*  =========================================================================================== 
+ *  요구사항 5) - dsBoardList에서 체크 된 데이터 복사 후 보이기
+ *  ===========================================================================================
+ */
+
+// 복사 버튼 누를 시 
+this.btnCopy_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{    
+	this.dsCopy.copyData(this.dsBoardList);   // 데이터 복사  
+	this.dsCopy.clearData();                  // 데이터 모두 삭제
+    
+    // 체크 박스가 선택 된 행 복사
+	for(var i=0; i<this.dsBoardList.rowcount; i++){
+		var chk = this.dsBoardList.getColumn(i,"check"); 
+		if( chk==1 ) {
+		   var nRow = this.dsCopy.addRow();
+		   this.dsCopy.copyRow(nRow,this.dsBoardList,i);
+		}
+	}
+	
+}   
+
+/*  =========================================================================================== 
+ *  요구사항 6) - 숨김 버튼 누를 시 Hidden_Type에 해당하는 Column 숨기기
+ *  ===========================================================================================
+ */ 
+ 
+
+// hiddenCombo에 value값 set
+this.hieenCombo_setValue = function()
+{
+
+   var colCount = this.dsBoardList.colcount;
+   
+   for(var i=0; i<colCount; i++) {
+	
+	  // 그리드의 Head에 위치한 text값 get
+	  var dsHiddenColId = this.grBoardList.getCellText(-1,i);
+	  var nRow = this.dsHidden.addRow();
+      
+      this.dsHidden.setColumn(nRow, "hiddenCd", i);
+      this.dsHidden.setColumn(nRow, "hiddenCdNm", dsHiddenColId);
+   }
+
+}
+
+
+// 숨김 버튼 누를 시 
+this.btnHidden_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+  /*
+   * ====================== 메소드 설명 ====================== 
+   * Grid.setFormatColProperty(nColIdx,strPropID,nValue)
+   * nColIdx  = 설정하고자 하는 열의 인덱스
+   * nValue  설정할 속성이 'size'일 경우의 설정값
+   * strValue  설정할 속성이 'band'일 경우의 설정값
+   * ===========================================================
+   */
+ 
+   // 콤보박스의 Value 값 GET
+   var comboValue = this.hiddenCombo.value;
+   this.grBoardList.setFormatColProperty(comboValue, "size", 0);
+	
+}
+
+]]></Script>
+  </Form>
+</FDL>
