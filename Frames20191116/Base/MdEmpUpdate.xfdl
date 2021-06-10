@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <Form id="MdEmpUpdate" onload="MdEmpUpdate_onload" width="500" height="370" titletext="사원정보수정">
+    <Layouts>
+      <Layout height="370" mobileorientation="landscape" width="500">
+        <Static id="Static00" taborder="0" text="사원정보수정" left="10" top="13" width="130" height="23" font="20px/normal &quot;Verdana&quot;"/>
+        <Static id="lb_comm" taborder="1" text="인센티브" left="232" top="150" width="58" height="30" border="1"/>
+        <Edit id="ed_comm" taborder="2" left="290" top="150" width="140" height="30"/>
+        <Static id="lb_sal" taborder="3" text="급여" left="232" top="110" width="58" height="30" border="1"/>
+        <Edit id="ed_sal" taborder="4" left="290" top="110" width="140" height="30"/>
+        <Static id="lb_job" taborder="5" text="JOB" left="232" top="70" width="58" height="30" border="1"/>
+        <Edit id="ed_job" taborder="6" left="290" top="70" width="140" height="30"/>
+        <Static id="lb_mgr" taborder="7" text="그룹코드" left="232" top="190" width="58" height="30" border="1"/>
+        <Edit id="ed_mgr" taborder="8" left="290" top="190" width="140" height="30"/>
+        <Static id="Static00_04" taborder="9" text="사원명" left="11" top="110" width="58" height="30" border="1"/>
+        <Static id="Static01_03" taborder="10" text="입사일자" left="9" top="150" width="60" height="30"/>
+        <Calendar id="cal_hiredate2" editformat="yyyy-MM-dd" locale="en_US" taborder="11" left="69" top="150" width="150" height="30"/>
+        <Edit id="ed_name" taborder="12" left="69" top="110" width="140" height="30"/>
+        <Edit id="ed_empno" taborder="13" left="69" top="70" width="140" height="30"/>
+        <Static id="lb_empno03" taborder="14" text="사원번호" left="11" top="70" width="58" height="30" border="1"/>
+        <Button id="btn_save" taborder="15" text="저장" left="283" top="281" width="67" height="29" onclick="btn_save_onclick"/>
+        <Button id="btn_close" taborder="16" text="닫기" left="363" top="281" width="67" height="29" onclick="btn_close_onclick"/>
+        <Static id="lb_deptno1" taborder="17" text="부서번호2" left="11" top="190" width="58" height="30" border="1"/>
+        <Combo id="cb_dept2" text="인사부" codecolumn="codecolumn" datacolumn="datacolumn" innerdataset="innerdataset" taborder="18" left="70" top="191" width="150" height="30" value="10" index="0">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" type="INT" size="256"/>
+              <Column id="datacolumn" type="STRING" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">10</Col>
+                <Col id="datacolumn">인사부</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">20</Col>
+                <Col id="datacolumn">총무부</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">30</Col>
+                <Col id="datacolumn">영업부</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Static id="lb_deptno2" taborder="19" text="부서번호" left="11" top="230" width="58" height="30" border="1"/>
+        <Combo id="cb_deptno" innerdataset="@ds_dept" codecolumn="DEPTNO" datacolumn="DNAME" index="0" value="10" text="인사부" taborder="20" left="70" top="231" width="150" height="30"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[this.MdEmpUpdate_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	var cempno = this.parent.param1; 
+	var cename = this.parent.param2;
+	var cjob = this.parent.param3; 
+	var chiredate = this.parent.param4;
+	//alert("chiredate : "+chiredate);
+	var c = new String(chiredate);
+	var y = chiredate.substr(0,4);
+	var m = chiredate.substr(5,2);
+	var d = chiredate.substr(8,2);
+	//alert("y : "+y+" , m : "+m+", d : "+d);
+	var objDate = new Date(y, m, d);
+	var sYear   = objDate.getFullYear().toString();
+	var sMonth  = (objDate.getMonth() + 1).toString().padLeft(2, "0");
+	var sDate   = (objDate.getDate()).toString().padLeft(2, "0");
+	//alert("objDate : "+objDate);
+	alert("y : "+sYear+" , m : "+sMonth+", d : "+sDate);
+	this.cal_hiredate2.set_value(String().concat(sYear, sMonth-1, sDate));
+	var cmgr = this.parent.param5; 
+	var csal = this.parent.param6;
+	var ccomm = this.parent.param7; 
+	var cdeptno = this.parent.param8;	
+	this.ed_empno.set_value(cempno); 
+	this.ed_name.set_value(cename);
+	this.ed_job.set_value(cjob); 
+	//this.cal_hiredate.set_value(chiredate);
+	this.ed_mgr.set_value(cmgr); 
+	this.ed_sal.set_value(csal);
+	this.ed_comm.set_value(ccomm); 
+	this.cb_deptno.set_value(cdeptno);	
+	//alert("MdEmpUpdate_onload Form로드");
+	this.transaction("searchDept" ,"SvcURL::deptXML.nxa?timestamp="+new Date().getTime() ,"in_dept=ds_dept" ,"ds_dept=out_dept" ,"" ,"fn_callback");
+}
+this.btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//this.opener.fn_parent(this.ds_aa);
+	var strReturn = "수정화면에서 반환되는 값";
+	this.close(strReturn);
+};]]></Script>
+    <Objects>
+      <Dataset id="ds_dept">
+        <ColumnInfo>
+          <Column id="DEPTNO" type="INT" size="256"/>
+          <Column id="DNAME" type="STRING" size="256"/>
+          <Column id="LOC" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="cb_deptno" propid="value" datasetid="ds_dept" columnid="DEPTNO"/>
+    </Bind>
+  </Form>
+</FDL>

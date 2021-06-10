@@ -1,0 +1,586 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <Form id="empList" onload="empList_onload" width="1280" height="720" titletext="사원관리" border="1">
+    <Layouts>
+      <Layout height="720" mobileorientation="landscape" width="1280">
+        <Grid id="gr_emp" taborder="0" left="12" top="235" width="1020" height="290" binddataset="ds_emp" onheadclick="gr_emp_onheadclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="50"/>
+                <Column size="80"/>
+                <Column size="120"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell displaytype="checkboxcontrol" edittype="checkbox"/>
+                <Cell col="1" text="사원번호"/>
+                <Cell col="2" text="사원명"/>
+                <Cell col="3" text="JOB"/>
+                <Cell col="4" text="입사일자"/>
+                <Cell col="5" text="부서번호"/>
+                <Cell col="6" text="급여"/>
+                <Cell col="7" text="인센티브"/>
+                <Cell col="8" text="그룹코드"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CK" displaytype="checkboxcontrol" edittype="checkbox"/>
+                <Cell col="1" text="bind:EMPNO" edittype="normal" textAlign="center"/>
+                <Cell col="2" text="bind:ENAME" edittype="normal"/>
+                <Cell col="3" text="bind:JOB" edittype="normal"/>
+                <Cell col="4" text="bind:HIREDATE" edittype="normal" textAlign="center"/>
+                <!--
+                <Cell col="4" text="bind:HIREDATE" displaytype="date" edittype="date" textAlign="center" calendarpopupsize="200 220"/>
+                -->
+                <Cell col="5" text="bind:DEPTNO" edittype="combo" displaytype="combocontrol" combodataset="ds_dept" combocodecol="DEPTNO" combodatacol="DNAME"/>
+                <Cell col="6" text="bind:SAL" displaytype="number" edittype="mask" textAlign="right" maskeditformat="#,###"/>
+                <Cell col="7" text="bind:COMM" displaytype="number" edittype="mask" textAlign="right" maskeditformat="#,###"/>
+                <Cell col="8" text="bind:MGR" displaytype="number" edittype="mask" textAlign="center" maskeditformat="#,###"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_sel" taborder="1" text="조회" left="12" top="195" width="68" height="30" onclick="btn_sel_onclick"/>
+        <Button id="btn_ins" taborder="2" text="입력" left="82" top="195" width="68" height="30" onclick="btn_ins_onclick"/>
+        <Button id="btn_upd" taborder="3" text="수정" left="152" top="195" width="68" height="30" onclick="btn_upd_onclick"/>
+        <Button id="btn_del" taborder="4" text="삭제" left="222" top="195" width="68" height="30" onclick="btn_del_onclick"/>
+        <Static id="Static00" taborder="5" text="사원명" left="12" top="120" width="58" height="30" border="1"/>
+        <Static id="Static01" taborder="6" text="입사일자" left="10" top="160" width="60" height="30"/>
+        <Calendar id="cal_hiredate" taborder="7" left="70" top="160" width="150" height="30"/>
+        <TextArea id="ta_info" taborder="8" left="12" top="540" width="408" height="130"/>
+        <Edit id="ed_name" taborder="9" left="70" top="120" width="140" height="30"/>
+        <Static id="lb_empno" taborder="10" text="사원번호" left="12" top="80" width="58" height="30" border="1"/>
+        <Edit id="ed_empno" taborder="11" left="70" top="80" width="140" height="30"/>
+        <Button id="btn_save" taborder="12" text="저장" left="292" top="194" width="70" height="32" onclick="btn_save_onclick"/>
+        <Static id="lb_deptno" taborder="13" text="부서번호" left="12" top="40" width="58" height="30" border="1"/>
+        <Edit id="ed_deptno" taborder="14" left="70" top="40" width="140" height="30"/>
+        <Button id="btn_modal" taborder="15" text="모달" left="364" top="194" width="68" height="31" onclick="btn_modal_onclick"/>
+        <Static id="lb_comm" taborder="16" text="인센티브" left="242" top="120" width="58" height="30" border="1"/>
+        <Edit id="ed_comm" taborder="17" left="300" top="120" width="140" height="30"/>
+        <Static id="lb_sal" taborder="18" text="급여" left="242" top="80" width="58" height="30" border="1"/>
+        <Edit id="ed_sal" taborder="19" left="300" top="80" width="140" height="30"/>
+        <Static id="lb_job" taborder="20" text="JOB" left="242" top="40" width="58" height="30" border="1"/>
+        <Edit id="ed_job" taborder="21" left="300" top="40" width="140" height="30"/>
+        <Static id="lb_mgr" taborder="22" text="그룹코드" left="242" top="160" width="58" height="30" border="1"/>
+        <Edit id="ed_mgr" taborder="23" left="300" top="160" width="140" height="30"/>
+        <Button id="btn_excel" taborder="24" text="엑셀" left="434" top="194" width="70" height="31" onclick="btn_excel_onclick"/>
+        <CheckBox id="cb_all" taborder="25" text="전체선택" left="611" top="200" width="79" height="20" onclick="cb_all_onclick"/>
+        <Button id="btn_zipcode" taborder="26" text="우편번호찾기" left="506" top="194" width="86" height="31" onclick="btn_zipcode_onclick"/>
+        <Static id="Static02" taborder="27" text="주소" left="452" top="41" width="40" height="30"/>
+        <Edit id="ed_address" taborder="28" left="451" top="120" width="419" height="30"/>
+        <Edit id="ed_zipcode" taborder="29" left="451" top="80" width="89" height="31"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_emp">
+        <ColumnInfo>
+          <Column id="CK" type="STRING" size="2"/>
+          <Column id="EMPNO" type="INT" size="30"/>
+          <Column id="ENAME" type="STRING" size="50"/>
+          <Column id="JOB" type="STRING" size="256"/>
+          <Column id="HIREDATE" type="STRING" size="256"/>
+          <Column id="DEPTNO" type="INT" size="20"/>
+          <Column id="SAL" type="INT" size="20"/>
+          <Column id="COMM" type="INT" size="256"/>
+          <Column id="MGR" type="INT" size="256"/>
+        </ColumnInfo>
+        <!-- 
+        <Rows>
+          <Row>
+            <Col id="CK">0</Col>
+            <Col id="EMPNO">7566</Col>
+            <Col id="ENAME">김유신</Col>
+            <Col id="JOB">SALESMAN</Col>
+            <Col id="HIREDATE">1990-10-23</Col>
+            <Col id="DEPTNO">10</Col>
+            <Col id="SAL">3000</Col>
+            <Col id="ALL">1</Col>
+          </Row>
+          <Row>
+            <Col id="CK">0</Col>
+            <Col id="EMPNO">7499</Col>
+            <Col id="ENAME">이성계</Col>
+            <Col id="JOB">CLERK</Col>
+            <Col id="HIREDATE">1995-12-23</Col>
+            <Col id="DEPTNO">20</Col>
+            <Col id="SAL">3500</Col>
+            <Col id="ALL">1</Col>
+          </Row>
+          <Row>
+            <Col id="CK">0</Col>
+            <Col id="EMPNO">7650</Col>
+            <Col id="ENAME">유재석</Col>
+            <Col id="JOB">MANAGER</Col>
+            <Col id="HIREDATE">1997-02-21</Col>
+            <Col id="DEPTNO">30</Col>
+            <Col id="SAL">5000</Col>
+            <Col id="ALL">1</Col>
+          </Row>
+          <Row>
+            <Col id="CK">0</Col>
+            <Col id="EMPNO">7651</Col>
+            <Col id="ENAME">강호동</Col>
+            <Col id="JOB">SALESMAN</Col>
+            <Col id="HIREDATE">1999-12-21</Col>
+            <Col id="DEPTNO">10</Col>
+            <Col id="SAL">7800</Col>
+            <Col id="CK">0</Col>
+            <Col id="ALL">1</Col>
+          </Row>
+        </Rows>
+		-->
+      </Dataset>
+      <Dataset id="ds_dept">
+        <ColumnInfo>
+          <Column id="DEPTNO" type="INT" size="5"/>
+          <Column id="DNAME" type="STRING" size="256"/>
+          <Column id="LOC" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[this.empList_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	//alert("empList Form로드");
+	//empList(nexacro.Form);
+	//var objDate = new Date(); 
+	//var sToday = objDate.getFullYear().toString(); 
+	//sToday += (objDate.getMonth()+1).toString().padLeft(2, "0");
+	//sToday += objDate.getDate().toString().padLeft(2, "0");
+	//alert("empList Form로드 - "+sToday);
+}
+this.gr_emp_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	//사원 그리드가 로드될 때 호출되는 함수
+    //alert("gr_emp");
+};
+this.btn_sel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	alert("조회 접선");
+	//alert("사원명:"+this.ed_name.value);
+	var empno = this.ed_empno.value;
+	 var strText = new String();
+	 for (var i = 0; i < this.ds_emp.getColCount(); i++) 
+	 {
+			var objColInfo = this.ds_emp.getColumnInfo(i);
+				strText += "ID = " + objColInfo.name;
+				strText += " SIZE = " + objColInfo.size;
+				strText += " type = " + objColInfo.type;
+				strText += "\n";
+	 }
+	 this.ta_info.set_value(strText);
+	 var sDeptCd = 20;
+	 //this.transaction("search" ,"SvcURL::select_emp2.jsp?sDept="+sDeptCd ,"" ,"ds_emp=out_emp" ,"" ,"fn_callback");
+	 //this.transaction("search" ,"SvcURL::empList.nxa?sDept="+sDeptCd ,"in_emp=ds_emp" ,"ds_emp=out_emp" ,"" ,"fn_callback");
+	 this.transaction("searchDept" ,"SvcURL::deptXML.nxa?sDept="+sDeptCd+"&timestamp="+new Date().getTime() ,"in_dept=ds_dept" ,"ds_dept=out_dept" ,"" ,"fn_callback");
+	 this.transaction("search" ,"SvcURL::empXML.nxa?sDept="+sDeptCd+"&timestamp="+new Date().getTime() ,"in_emp=ds_emp:A" ,"ds_emp=out_emp" ,"empno="+0+" mem_pw=123" ,"fn_callback");
+};
+// 비동기 통신 결과를 받을 콜백 함수 지정 
+this.fn_callback = function(svcID, errCD, errMSG) { 
+	//alert("fn_callback호출 성공"+svcID+","+errCD+","+errMSG);
+	if(errCD < 0){ 
+		this.alert("Error: " + errMSG); 
+		return; 
+	}
+	if(svcID == "search"){
+		this.alert("Select Success");
+	}
+	else if(svcID == "searchDept"){
+		//this.alert("Dept Select Success");
+	}	
+	else if(svcID == "empInsert"){
+	//else if(svcID == "svcSave"){
+		this.alert(svcID);
+		this.alert("Save Success");
+		this.go("Base::empList.xfdl");
+	}	
+	else if(svcID == "empDelete"){
+	//else if(svcID == "svcSave"){
+		this.alert(svcID);
+		this.alert("Delete Success");
+		//this.go("Base::empList.xfdl");
+		this.go("http://localhost:7001/nexa11/launch.html?screenid=Desktop_screen");
+	}		
+}
+
+this.btn_upd_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//alert("수정 접선");
+	var cnt = 0;
+	var cempno = 0;//선택한 사원번호
+	var cename = "";//선택한 사원명
+	var cjob = "";//선택한 job
+	var cmgr = 0;//선택한 그룹코드
+	var chiredate = "";//선택한 입사일자
+	var csal = 0;//선택한 급여
+	var ccomm = 0;//선택한 인센티브
+	var cdeptno = 0;//선택한 부서번호
+	for(var i=0;i<this.ds_emp.getRowCount();i++){
+		var val = this.ds_emp.getColumn(i,'CK');
+		//alert("val : "+val);선택된 체크박스값만 1 찍음
+		if(val == 1){
+			cnt = cnt+1;
+			cempno = this.ds_emp.getColumn(i,'EMPNO');//선택된 체크박스 로우에 사원번호
+			cename = this.ds_emp.getColumn(i,'ENAME');//선택된 체크박스 로우에 사원명
+			cjob = this.ds_emp.getColumn(i,'JOB');//선택된 체크박스 로우에 사원번호
+			chiredate = this.ds_emp.getColumn(i,'HIREDATE');//선택된 체크박스 로우에 사원명
+			cmgr = this.ds_emp.getColumn(i,'MGR');//선택된 체크박스 로우에 사원번호
+			csal = this.ds_emp.getColumn(i,'SAL');//선택된 체크박스 로우에 사원명
+			ccomm = this.ds_emp.getColumn(i,'COMM');//선택된 체크박스 로우에 사원번호
+			cdeptno = this.ds_emp.getColumn(i,'DEPTNO');//선택된 체크박스 로우에 사원명			
+			//alert("사용자가 선택한 사원번호 : "+cempno);
+			alert("사용자가 선택한 입사일자 : "+chiredate+", 부서번호 : "+cdeptno);
+			var objChildFrame = new ChildFrame();
+			objChildFrame.init("popup_emp"
+							  , 0
+							  , 0
+							  , 400
+							  , 350
+							  , null
+							  , null
+							  , "Base::MdEmpUpdate.xfdl");
+
+			objChildFrame.set_dragmovetype("all");
+			objChildFrame.set_openalign("center middle");
+			objChildFrame.set_overlaycolor("RGBA(196,196,196,0.5)")
+			
+			var objParam = {param1:cempno
+						  , param2:cename
+						  , param3:cjob
+						  , param4:chiredate
+						  , param5:cmgr	  
+						  , param6:csal
+						  , param7:ccomm
+						  , param8:cdeptno};
+			objChildFrame.showModal(this.getOwnerFrame()
+								  , objParam
+								  , this
+								  , "fn_popupCallback");			
+			//return;
+		}		
+	}
+	if(cnt==0){
+		alert("수정할 사원을 선택하세요.");
+		return;
+	}
+
+	/*
+	var empno = this.ds_emp.getColumn(this.ds_emp.rowposition,'EMPNO');
+	var v_empno = '';
+	var v_ename = '';
+	var v_job = '';
+	var v_mgr = '';
+	var v_hiredate = '';
+	var v_sal = '';
+	var v_comm = '';
+	var v_deptno = '';
+	//alert("현재 사번:"+empno);
+	for(i=0;i<this.ds_emp.getRowCount();i++){
+		var val = this.ds_emp.getColumn(i,'CK');
+		//alert("val : "+val);선택된 체크박스값만 1 찍음
+		if(val == 1){
+			v_empno = this.ds_emp.getColumn(i,'EMPNO');//선택된 체크박스 로우에 사원번호
+			v_ename = this.ds_emp.getColumn(i,'ENAME');//선택된 체크박스 로우에 사원번호
+			v_job = this.ds_emp.getColumn(i,'JOB');//선택된 체크박스 로우에 사원번호
+			v_mgr = this.ds_emp.getColumn(i,'MGR');//선택된 체크박스 로우에 사원번호
+			v_hiredate = this.ds_emp.getColumn(i,'HIREDATE');//선택된 체크박스 로우에 사원번호
+			v_sal = this.ds_emp.getColumn(i,'SAL');//선택된 체크박스 로우에 사원번호
+			v_comm = this.ds_emp.getColumn(i,'COMM');//선택된 체크박스 로우에 사원번호
+			v_deptno = this.ds_emp.getColumn(i,'DEPTNO');//선택된 체크박스 로우에 사원번호
+		}
+	}
+	*/
+	//alert("cempno : "+cempno+", "+cename+", "+cjob);
+	//this.transaction("empUpdate" ,"SvcURL::empUpdate.nxa?empno="+v_empno+"&ename="+v_ename+"&deptno="+v_deptno+"&job="+v_job+"&mgr="+v_mgr+"&hiredate="+v_hiredate+"&sal="+v_sal+"&comm="+v_comm,"in_emp=ds_emp" ,"ds_emp=out_emp" ,"사원수정" ,"fn_callback");
+};
+// 자바스크립트를 이용하여 오늘 일자 계산 
+this.fn_today = function() { 
+	alert("fn_today 호출 성공");
+	var objDate = new Date(); 
+	var sToday = objDate.getFullYear().toString(); 
+	sToday += "-"+(objDate.getMonth()+1).toString().padLeft(2, "0");
+	sToday += "-"+objDate.getDate().toString().padLeft(2, "0");
+	return sToday;
+};
+
+this.btn_ins_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	alert("입력 접선");
+	// 데이타셋의 마지막 row에 새로운 row를 추가 this.ds_emp.addRow();
+    // 추가한 row의 입사일자 컬럼에 오늘 일자를 초기값으로 설정 
+	//this.ds_emp.setColumn(this.ds_emp.rowposition, "HIRE_DATE", this.fn_today());
+	this.ds_emp.insertRow();
+	this.ds_emp.setColumn(this.ds_emp.rowposition, "HIREDATE", this.fn_today());
+};
+
+this.btn_del_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	alert("삭제 접선");
+	//this.ds_emp.deleteRow(this.ds_emp.rowposition);
+	var cempno = '';
+	var empnos = '';
+	//var empno = this.ds_emp.getColumn(this.ds_emp.rowposition,'EMPNO');
+	//alert("현재 사번:"+empno);
+	for(i=0;i<this.ds_emp.getRowCount();i++){
+		var val = this.ds_emp.getColumn(i,'CK');
+		//alert("val : "+val);선택된 체크박스값만 1 찍음
+		if(val == 1){
+			cempno = this.ds_emp.getColumn(i,'EMPNO');//선택된 체크박스 로우에 사원번호
+			empnos+=cempno+",";
+			//alert("cempno : "+cempno+", empnos : "+empnos);
+		}
+	}
+	if(empnos.length>1){
+			empnos = empnos.substring(0,empnos.length-1);
+	}
+	alert("empnos : "+empnos);
+	this.transaction("empDelete" ,"SvcURL::empDelete.nxa?empnos="+empnos ,"in_emp=ds_emp" ,"ds_emp=out_emp" ,"사원삭제" ,"fn_callback");
+};
+
+
+
+this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	alert("저장버튼");
+	var v_empno = this.ed_empno.value;
+	var v_ename = this.ed_name.value;
+	var v_deptno = this.ed_deptno.value;
+	var v_job = this.ed_job.value;
+	var v_mgr = this.ed_mgr.value;
+	alert("v_hiredate : "+this.cal_hiredate.value);
+	var v_hiredate = this.cal_hiredate.value;
+	//alert("v_sal : "+this.ed_sal.value);
+	var v_sal = this.ed_sal.value;
+    //alert("v_comm : "+this.ed_comm.value);
+	var v_comm = this.ed_comm.value;
+	var sTitle = nexacro.wrapQuote(this.titletext);
+	//this.alert("sTitle : "+sTitle);	
+	if( v_empno==undefined || v_empno=="" ) {	
+		this.alert( "사원번호를 입력 바람" ); return;
+	}	
+	//alert("등록하기 전 empno="+v_empno+"&ename="+v_ename+"&deptno="+v_deptno+"&job="+v_job+"&mgr="+v_mgr+"&hiredate="+v_hiredate+"&sal="+v_sal+"&comm="+v_comm);
+	this.transaction("empInsert" ,"SvcURL::empInsert.nxa?empno="+v_empno+"&ename="+v_ename+"&deptno="+v_deptno+"&job="+v_job+"&mgr="+v_mgr+"&hiredate="+v_hiredate+"&sal="+v_sal+"&comm="+v_comm+"&timestamp="+new Date().getTime() ,"in_emp=ds_emp:A" ,"ds_emp=out_emp" ,"in_var1="+sTitle  ,"fn_callback");
+	/*
+	this.transaction(	
+	//----------------------------------------------------------
+	// 현 비동기방식 작업의 별칭 ID
+	//----------------------------------------------------------
+	xxx           
+	//"svcSave"                                                                     
+	//----------------------------------------------------------
+	// 요청할 서버 URL 주소
+	//----------------------------------------------------------
+	//,"SvcURL::saveEmp.jsp"
+	//,"SvcURL::saveEmp2.jsp"
+	//,"SvcURL::http://demo.nexacro.com/edu/nexacro17/"
+	, "http://localhost:7000/nexacro827/nexa10/empInsert.nxa"
+	//, "http://localhost:8088/z_nexa/jsp/saveEmp4.jsp"
+	//----------------------------------------------------------
+	// 서버로 보낼 [Dataset 객체] 지정. 서버에서받을Dataset객체저장키명=서버로보낼Dataset객체명 :U => 갱신된 내용만 전송.
+	//----------------------------------------------------------
+	,"in_emp=ds_emp:u"                                   
+	//,"in_emp=ds_emp"
+	//,""
+	//----------------------------------------------------------
+	// 서버가 보내온 [Dataset 객체] 지정. "현화면에서받을Dataset객체저장키명=서버가보낸데Dataset객체저장키명"  형태이다
+	//----------------------------------------------------------
+	,""
+	//----------------------------------------------------------
+	//  서버로 보낼 문자열 지정.   문자열저장변수명=문자열   형태이다
+	//----------------------------------------------------------
+	,"in_var1="+sTitle 
+	//----------------------------------------------------------
+	//  서버의 응답이 성공한 후 호출할 콜백함수를 문자열로 지정.
+	//----------------------------------------------------------
+	,"fn_callback"
+	);	
+	*/
+};
+
+this.btn_modal_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//alert("모달 버튼 클릭");
+	var objChildFrame = new ChildFrame();
+	objChildFrame.init("popup_dept"
+	                  , 0
+					  , 0
+					  , 400
+					  , 350
+					  , null
+					  , null
+					  , "Base::aa.xfdl");
+
+	objChildFrame.set_dragmovetype("all");
+	objChildFrame.set_openalign("center middle");
+	objChildFrame.set_overlaycolor("RGBA(196,196,196,0.5)")
+	
+	var objParam = {param1:this.ed_empno.value
+	              , param2:this.ed_name.value
+				  , param3:this.ds_emp};
+	objChildFrame.showModal(this.getOwnerFrame()
+	                      , objParam
+						  , this
+						  , "fn_popupCallback");
+};
+
+this.fn_popupCallback = function(strPopupID, strReturn)
+{
+	//alert("fn_popupCallback ==> "+strPopupID+", "+strReturn);
+	if(strReturn == undefined){ 
+		return; 
+	}
+	if(strPopupID == "popup_dept"){ 
+		this.alert("Return Value: " + strReturn); 
+	}	
+	else if(strPopupID == "popup_emp"){ 
+		this.alert("Return Value: " + strReturn); 
+	}		
+	else if(strPopupID == "popup_zipcode"){ 
+		this.alert("Return Value: " + strReturn); 
+	}		
+};
+
+this.fn_parent = function(pObj, pObj2) {
+	//alert("부모창 함수 호출하기 : "+pObj);
+	alert("부모창 함수 : "+pObj);
+	this.ed_zipcode.set_value(pObj);
+	this.ed_address.set_value(pObj2);
+	return;
+};
+
+
+this.btn_excel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	alert("엑셀");
+	//trace("엑셀 trace");크롬 개발자도구에서 Console에서 확인 가능함.
+	this.exportObj = new ExcelExportObject("Export00", this);
+	this.exportObj.set_exportfilename("ExcelExportFile");
+	this.exportObj.set_exporturl("http://127.0.0.1:7001/nexa11");
+	this.exportObj.addExportItem(nexacro.ExportItemTypes.GRID, this.gr_emp, "Sheet1!A1");
+	this.addEventHandler("onsuccess", this.Export00_onsuccess, this);
+	this.addEventHandler("onerror", this.Export00_onerror, this);
+	var intExportedItem = this.exportObj.exportData();
+	trace("Number of Exported Item: " + intExportedItem);	
+};
+this.Export00_onsuccess = function(obj:ExcelExportObject, e:nexacro.ExcelExportEventInfo)
+{
+	trace("Export00_onsuccess");	
+}
+
+this.Export00_onerror = function(obj:ExcelExportObject, e:nexacro.ExcelExportEventInfo)
+{
+	trace("Export00_onerror");
+}
+function empList(obj:nexacro.Form){
+	//alert("empList 호출 성공 : "+obj+", nexacro.Form : "+nexacro.Form);
+	alert("empList 호출 성공");
+	//btn_sel_onclick();호출 안됨.
+	var sDeptCd = 20;
+	this.transaction("search" ,"SvcURL::empXML.nxa?sDept="+sDeptCd+"&timestamp="+new Date().getTime() ,"in_emp=ds_emp" ,"ds_emp=out_emp" ,"" ,"fn_callback");
+}
+this.sample_checkbox_03_onbindingvaluechanged = function(obj:nexacro.Form,e:nexacro.BindingValueChangedEventInfo)
+{
+	alert("전체 체크박스 호출");
+    //this.TextArea00.set_value("CheckBox00: "+this.CheckBox00.isChecked()+" / "+this.CheckBox00.value);
+    //this.TextArea00.insertText("\nCheckBox01: "+this.CheckBox01.isChecked()+" / "+this.CheckBox01.value);
+    //this.TextArea00.insertText("\nCheckBox02: "+this.CheckBox02.isChecked()+" / "+this.CheckBox02.value);
+};
+this.cb_all_onclick = function(obj:nexacro.CheckBox,e:nexacro.ClickEventInfo)
+{
+	//alert("전체선택"+this.ds_emp);
+	if(this.cb_all.isChecked()==1){
+		for(var i=0;i<this.ds_emp.getRowCount();i++){
+			//var isCK = this.ds_emp.getColumn(i,'CK');
+			this.ds_emp.setColumn(i,'CK',1);
+		}//end of for		
+	}else if(this.cb_all.isChecked()==0){
+		for(var i=0;i<this.ds_emp.getRowCount();i++){
+			//var isCK = this.ds_emp.getColumn(i,'CK');
+			this.ds_emp.setColumn(i,'CK',0);
+		}//end of for		
+	}
+	//alert("선택한 사원번호들..."+empnos);
+};
+
+this.btn_zipcode_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//alert("우편번호모달 버튼 클릭");
+	var objChildFrame = new ChildFrame();
+	objChildFrame.init("popup_zipcode"
+	                  , 0
+					  , 0
+					  , 400
+					  , 350
+					  , null
+					  , null
+					  , "Base::ZipCodeList.xfdl");
+
+	objChildFrame.set_dragmovetype("all");
+	objChildFrame.set_openalign("center middle");
+	objChildFrame.set_overlaycolor("RGBA(196,196,196,0.5)")
+	
+	var objParam = {param1:this.ed_empno.value
+	              , param2:this.ed_name.value
+				  , param3:this.ds_emp};
+	objChildFrame.showModal(this.getOwnerFrame()
+	                      , objParam
+						  , this
+						  , "fn_popupCallback");	
+};
+this.gr_emp_onheadclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	if(e.cell == 0)
+	{
+		this.gf_setCheckAll(obj, e);
+	}
+	
+};
+
+
+this.gv_isCheckAll = 0;
+this.gf_setCheckAll = function(obj:Grid, e:GridClickEventInfo)
+{
+	var strColID = obj.getCellProperty("body", e.cell, "text").replace(/bind:/i, "");
+		
+	//체크박스가 체크되어 있으면 체크 해제 
+	//체크되어 있지 않으면 체크
+	this.gv_isCheckAll = (this.gv_isCheckAll ? 0 : 1);
+	
+	//Dataset의 이벤트를 끔
+	//this.Dataset00.enableevent = false;
+	
+	//check to body column
+	for(var i=0; i< this.ds_emp.getRowCount(); i++)
+	{
+		this.ds_emp.setColumn(i, strColID, this.gv_isCheckAll);
+	}
+	
+	//check to head column
+	obj.setCellProperty("Head", 0, "text", this.gv_isCheckAll);
+
+	//Dataset의 이벤트를 켬
+	//this.Dataset00.enableevent = true;
+
+}]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="ed_name" propid="value" datasetid="ds_emp" columnid="ENAME"/>
+      <!--
+      <BindItem id="item1" compid="cal_hiredate" propid="value" datasetid="ds_emp" columnid="HIREDATE"/>
+	  -->
+      <BindItem id="item2" compid="ed_empno" propid="value" datasetid="ds_emp" columnid="EMPNO"/>
+      <BindItem id="item4" compid="ed_deptno" propid="value" datasetid="ds_emp" columnid="DEPTNO"/>
+      <BindItem id="item3" compid="ed_comm" propid="value" datasetid="ds_emp" columnid="COMM"/>
+      <BindItem id="item5" compid="ed_sal" propid="value" datasetid="ds_emp" columnid="SAL"/>
+      <BindItem id="item6" compid="ed_job" propid="value" datasetid="ds_emp" columnid="JOB"/>
+      <BindItem id="item7" compid="ed_mgr" propid="value" datasetid="ds_emp" columnid="MGR"/>
+    </Bind>
+  </Form>
+</FDL>

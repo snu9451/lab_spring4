@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <Form id="BoardInsert" width="780" height="520" titletext="글쓰기">
+    <Layouts>
+      <Layout height="520" mobileorientation="landscape" width="780">
+        <Static id="st_title" taborder="0" text="제목" left="21" top="20" width="39" height="30"/>
+        <Edit id="ed_title" taborder="1" left="80" top="20" width="500" height="30"/>
+        <Static id="st_writer" taborder="2" text="작성자" left="21" top="60" width="39" height="30"/>
+        <Edit id="ed_writer" taborder="3" left="80" top="60" width="100" height="30"/>
+        <Static id="st_email" taborder="4" text="이메일" left="21" top="100" width="39" height="30"/>
+        <Edit id="ed_email" taborder="5" left="80" top="100" width="150" height="30"/>
+        <Static id="st_content" taborder="6" text="내용" left="21" top="140" width="39" height="30"/>
+        <TextArea id="ta_content" taborder="7" left="80" top="142" width="670" height="238"/>
+        <Static id="st_pw" taborder="8" text="비번" left="21" top="390" width="39" height="30"/>
+        <Edit id="ed_pw" taborder="9" left="80" top="390" width="100" height="30"/>
+        <Static id="st_file" taborder="10" text="첨부파일" left="21" top="430" width="49" height="30"/>
+        <Edit id="ed_file" taborder="11" left="80" top="430" width="580" height="30"/>
+        <Button id="btn_save" taborder="12" text="저장" left="588" top="474" width="80" height="32" onclick="btn_save_onclick"/>
+        <Button id="btn_cancel" taborder="13" text="취소" left="670" top="474" width="80" height="32" onclick="btn_cancel_onclick"/>
+        <Button id="btn_file" taborder="14" text="파일찾기" left="670" top="430" width="80" height="30" onclick="btn_file_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[var constOpenMode = FileDialog.LOAD;
+this.btn_file_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	alert('btn_file_onclick');
+	this.FileDialog00.open('nexacro17', constOpenMode);
+};
+this.FileDialog00_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+{
+	alert("FileDialog00_onclose 호출 성공");
+	this.ed_file.set_value("selectfiles: "+e.virtualfiles.length+"\n");
+	for (var i = 0, len = e.virtualfiles.length, vFile; i < len; i++)
+	{
+		vFile = e.virtualfiles[i];
+		vFile.addEventHandler("onsuccess", this.FileDialog_VirtualFile_onsuccess, this);
+		
+		vFile.open(null, VirtualFile.openRead);
+		//vFile.getFileSize();
+	}
+	
+};
+this.FileDialog_VirtualFile_onsuccess = function(obj:nexacro.VirtualFile, e:nexacro.VirtualFileEventInfo)
+{
+	alert('onsuccess');
+	switch (e.reason)
+	{
+		case 1:
+			obj.getFileSize();
+			break;
+		case 9:
+			this.ed_file.set_value(this.ed_file.value+obj.filename+"("+e.filesize+")\n");
+			obj.close();
+			break;
+	}
+}
+this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var bm_group=0;
+	var bm_pos=0;
+	var bm_step=0;
+	var bm_title = this.ed_title.value;
+	alert("bm_title:"+bm_title);
+	var bm_writer = this.ed_writer.value;
+	var bm_email = this.ed_email.value;
+	var bm_content = this.ta_content.value;
+	var bm_pw = this.ed_pw.value;
+	var bs_file = this.ed_file.value;
+	var sTitle = nexacro.wrapQuote(this.titletext);	
+	this.transaction("boardInsert" ,"SvcURL2::boardInsert.nxa?timestamp="+new Date().getTime() ,"in_board=ds_board:u" ,"ds_board=out_board" ,"bm_title="+bm_title+" bm_writer="+bm_writer+" bm_email="+bm_email+" bm_content="+bm_content+" bm_pw="+bm_pw+" bs_file="+bs_file+" bm_group="+bm_group+" bm_pos="+bm_pos+" bm_step="+bm_step  ,"fn_callback");
+	
+};
+this.btn_cancel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//this.opener.fn_parent(this.ds_aa);
+	//var strReturn = this.ped_name.value;
+	var strReturn = "글쓰기닫기";
+	this.close(strReturn);
+};
+this.fn_callback = function(strPopupID, strReturn)
+{
+	//alert("fn_popupCallback ==> "+strPopupID+", "+strReturn);
+	if(strReturn == undefined){ 
+		return; 
+	}
+	if(strPopupID == "boardInsert"){ 
+		this.alert("boardInsert: " + strReturn); 
+		this.close();
+	    this.opener.fn_parent(this.ed_title,this.ed_writer);
+	}		
+};
+]]></Script>
+    <Objects>
+      <FileDialog id="FileDialog00" onclose="FileDialog00_onclose"/>
+    </Objects>
+  </Form>
+</FDL>

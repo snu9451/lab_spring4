@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.0">
+  <!-- 팝업창에서 파라메터를 받는 스크립트 입니다. 팝업창의 onload 이벤트에 지정합니다. -->
+  <Form id="aa" width="700" height="520" titletext="부서등록" onload="form_onload">
+    <Layouts>
+      <Layout height="520" mobileorientation="landscape" width="700">
+        <Static id="lb_deptno" taborder="0" text="부서번호" left="20" top="20" width="50" height="32"/>
+        <Edit id="ped_deptno" taborder="1" left="80" top="26" width="110" height="20"/>
+        <Static id="Static00_00" taborder="2" text="사원번호" left="20" top="110" width="50" height="32"/>
+        <Edit id="ped_empno" taborder="3" left="80" top="116" width="110" height="20"/>
+        <Static id="Static00_01" taborder="4" text="사원명" left="20" top="140" width="50" height="32"/>
+        <Edit id="ped_name" taborder="5" left="80" top="146" width="110" height="20"/>
+        <Button id="btn_save" taborder="6" text="저장" left="33" top="191" width="67" height="29" onclick="btn_save_onclick"/>
+        <Button id="btn_close" taborder="7" text="닫기" left="113" top="191" width="67" height="29" onclick="btn_close_onclick"/>
+        <Grid id="gr_aa" taborder="8" left="210" top="24" width="480" height="216"/>
+        <Grid id="gr_aa2" taborder="9" left="20" top="250" width="670" height="220">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="50"/>
+                <Column size="80"/>
+                <Column size="120"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="150"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="bind:CK" displaytype="checkboxcontrol" edittype="checkbox"/>
+                <Cell col="1" text="사원번호"/>
+                <Cell col="2" text="사원명"/>
+                <Cell col="3" text="JOB"/>
+                <Cell col="4" text="입사일자"/>
+                <Cell col="5" text="부서번호"/>
+                <Cell col="6" text="급여"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CK" displaytype="checkboxcontrol" edittype="checkbox"/>
+                <Cell col="1" text="bind:EMPNO" edittype="normal"/>
+                <Cell col="2" text="bind:ENAME" edittype="normal"/>
+                <Cell col="3" text="bind:JOB" edittype="normal"/>
+                <Cell col="4" text="bind:HIREDATE" displaytype="date" edittype="date" textAlign="center" calendarpopupsize="200 220"/>
+                <Cell col="5" text="bind:DEPTNO" edittype="normal"/>
+                <Cell col="6" text="bind:SAL" displaytype="number" edittype="mask" textAlign="right" maskeditformat="#,###"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="lb_dname" taborder="10" text="부서명" left="20" top="50" width="50" height="32"/>
+        <Edit id="ped_dname" taborder="11" left="80" top="56" width="110" height="20"/>
+        <Static id="lb_loc" taborder="12" text="지역" left="20" top="80" width="50" height="32"/>
+        <Edit id="ped_loc" taborder="13" left="80" top="86" width="110" height="20"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/* 팝업창에서 파라메터를 받는 스크립트 입니다. 팝업창의 onload 이벤트에 지정합니다. */
+this.form_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo) { 
+	//alert("form_onload 호출 성공");
+	var strParam1 = this.parent.param1; 
+	var strParam2 = this.parent.param2; 
+	var objParam  = this.parent.param3;
+	this.ped_empno.set_value(strParam1); 
+	this.ped_name.set_value(strParam2);
+	this.ds_aa.copyData(objParam);
+	this.gr_aa.set_binddataset("ds_aa");
+	this.gr_aa.createFormat();
+	this.gr_aa2.set_binddataset("ds_aa");
+	this.gr_aa2.createFormat();
+	this.gr_aa2.setCellProperty("body", 0, "displaytype","checkboxcontrol");
+	//this.gr_aa2.setCellProperty("body", 1, "edittype", "normal");
+	//this.gr_aa2.setCellProperty("body", 2, "edittype", "normal");
+	//this.gr_aa2.setCellProperty("body", 3, "edittype", "normal");
+};	
+this.btn_close_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.opener.fn_parent(this.ds_aa);
+	var strReturn = this.ped_name.value;
+	this.close(strReturn);
+};
+
+this.btn_save_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var v_deptno = this.ped_deptno.value;
+	var v_dname = this.ped_dname.value;
+	var v_loc = this.ped_loc.value;
+	var sTitle = nexacro.wrapQuote(this.titletext);
+	this.alert(sTitle);	
+	if( v_deptno==undefined || v_deptno=="" ) {	
+		this.alert( "부서번호를 입력 바람" ); return;
+	}	
+	this.transaction("deptInsert" ,"SvcURL::deptInsert.nxa?deptno="+v_deptno+"&dname="+v_dname+"&loc="+v_loc ,"in_dept=ds_dept:u" ,"ds_dept=out_dept" ,"in_var1="+sTitle  ,"fn_callback");	
+};
+]]></Script>
+    <Objects>
+      <Dataset id="ds_aa"/>
+      <Dataset id="ds_dept">
+        <ColumnInfo>
+          <Column id="deptno" type="INT" size="10"/>
+          <Column id="dname" type="STRING" size="256"/>
+          <Column id="loc" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>
